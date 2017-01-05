@@ -59,14 +59,19 @@ describe('Validate', () => {
 
     test('invalid map', () => {
       expect(() => {
-        Validate('map', {a: 1, b: 'a'}, 'map<string: number>').toThrow();
-      }).toThrow();
+        Validate('map', {a: 1, b: 'a'}, 'map<string: number>');
+      }).toThrow(/does not match the schema/);
     })
 
-    test('invalid schema', () => {
-      expect(() => {
-        Validate('map', {a: 1, b: 'a'}, 'map<string: nu>').toThrow();
-      }).toThrow();
+    it('invalid schema', () => {
+      expect(function() { Validate('map', {a: 1, b: 'a'}, 'map<string: nu>') }).toThrow('primitive data-type');
+    })
+
+    it('array is invalid', () => {
+      function func() {
+        Validate('map', [1, 2, 3], 'map<string: number>')
+      }
+      expect(func).toThrowError("validate: data 1,2,3 is of type array and not map")
     })
 
     test('schema with spaces', () => {
@@ -80,5 +85,29 @@ describe('Validate', () => {
   })
 
 
+  describe('array', () => {
+    test('[1, 2] is an array', () => {
+      expect(Validate('array', [1, 2], 'array<number>')).toBe(true);
+    })
+
+    test('["a", "b"] is an array', () => {
+      expect(Validate('array', ['a', 'b'], 'array<string>')).toBe(true);
+    })
+
+    test('invalid array', () => {
+      expect(() => {
+        Validate('array', {a: 1, b: 'a'}, 'array<string>');
+      }).toThrow(/not an array/);
+    })
+
+    it('invalid schema', () => {
+      expect(function() { Validate('array', [1, 2], 'array<string>') }).toThrow(/does not match the schema/);
+    })
+
+    it('invalid schema', () => {
+      expect(function() { Validate('array', ['1', 2], 'array<string>') }).toThrow(/2/);
+    })
+
+  })
 
 })
