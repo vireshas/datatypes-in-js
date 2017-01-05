@@ -30,4 +30,18 @@ describe('Validate', () => {
     })
   })
 
+  describe('boolean', () => {
+    test('abc is not a boolean', () => {
+      expect(Validate('boolean', "abc")).toBe(false);
+    })
+
+    test('true is a boolean', () => {
+      expect(Validate('boolean', true)).toBe(true);
+    })
+
+    test('false is a boolean', () => {
+      expect(Validate('boolean', false)).toBe(true);
+    })
+  })
+
 })
