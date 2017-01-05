@@ -44,4 +44,41 @@ describe('Validate', () => {
     })
   })
 
+  describe('map', () => {
+    test('{a: b} is a map', () => {
+      expect(Validate('map', {a: 'b'}, 'map<string: string>')).toBe(true);
+    })
+
+    test('{a: b, c: d} is a map', () => {
+      expect(Validate('map', {a: 'b', c: 'd'}, 'map<string: string>')).toBe(true);
+    })
+
+    test('{a: 1, b: 2} is a map', () => {
+      expect(Validate('map', {a: 1, b: 2}, 'map<string: number>')).toBe(true);
+    })
+
+    test('invalid map', () => {
+      expect(() => {
+        Validate('map', {a: 1, b: 'a'}, 'map<string: number>').toThrow();
+      }).toThrow();
+    })
+
+    test('invalid schema', () => {
+      expect(() => {
+        Validate('map', {a: 1, b: 'a'}, 'map<string: nu>').toThrow();
+      }).toThrow();
+    })
+
+    test('schema with spaces', () => {
+      expect(Validate('map', {a: 'b'}, 'map< string : string>')).toBe(true);
+    })
+
+    test('{"a" : 100} is a map', () => {
+      expect(Validate('map', {'a' : 100}, 'map< string : number >')).toBe(true);
+    })
+
+  })
+
+
+
 })
