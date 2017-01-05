@@ -1,0 +1,13 @@
+{
+    "esversion": 6,
+    "node": true,
+    "eqeqeq": true,
+    "freeze": true,
+    "futurehostile": true,
+    "maxdepth": 3,
+    "strict": "global",
+    "varstmt": true,
+    "globals": {
+        "Promise": true
+    }
+}
