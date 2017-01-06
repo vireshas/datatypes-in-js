@@ -44,6 +44,12 @@ describe('Validate', () => {
     })
   })
 
+  describe('regex', () => {
+    test('^abc$ is a regex', () => {
+      expect(Validate('regex', "^abc$")).toBe(true);
+    })
+  })
+
   describe('map', () => {
     test('{a: b} is a map', () => {
       expect(Validate('map', {a: 'b'}, 'map<string: string>')).toBe(true);
@@ -83,7 +89,6 @@ describe('Validate', () => {
     })
 
   })
-
 
   describe('array', () => {
     test('[1, 2] is an array', () => {

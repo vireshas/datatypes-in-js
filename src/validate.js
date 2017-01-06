@@ -12,6 +12,10 @@ export default function validate(type, data, schema) {
       return _.isString(data);
     case "boolean":
       return _.isBoolean(data);
+    case "regex":
+      return isRegex(data);
+    case "range":
+      return isRange(schema, data);
     case "map":
       return isMap(schema, data);
     case "array":
@@ -51,6 +55,24 @@ function inferDataType(data) {
   } 
 
   return inferedType;
+}
+
+function isRegex(data) {
+  var isValid = true;
+  try {
+    new RegExp(data);
+  } catch(e) {
+    isValid = false;
+  }
+  return isValid;
+}
+
+function isRange(schema, data) {
+  if (schema.length == 2 && isArray('array<number>', schema)) {
+    return _.isRange(data, schema[0], schema[1])
+  } else {
+    throw new Error("validate: min and max are not valid")
+  }  
 }
 
 function isArray(schema, data) {
