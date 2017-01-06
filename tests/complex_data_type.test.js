@@ -43,3 +43,24 @@ describe('array', () => {
     .toThrow(/3 does not match the schema/);
   })
 })
+
+describe('map with array', () => {
+  it('{a: {b: [1,2]}} is a map with array', () => {
+    expect(Validate('map', {a: {b: [1, 2]}}, 'map<string: map<string: array<number>>>')).toBe(true);
+  })
+
+  it('{a: {b: [1, 2]}, b: {c: [3,4]}} is a map with array', () => {
+    expect(Validate('map', {a: {b: [1, 2]}, b: {c: [3,4]}}, 'map<string: map<string: array<number>>>')).toBe(true);
+  })
+
+  it('{a: {b: [1, 2]}, b: {c: [3,4]}} is an invalid map with array', () => {
+    expect(() => {Validate('map', {a: {b: [1, 2]}, b: {c: [3,"4"]}}, 'map<string: map<string: array<number>>>')}).toThrow(/4 does not match the schema number/);
+  })
+})
+
+describe('array with map', () => {
+  it('[{a: "b"}] is an array with map', () => {
+    expect(Validate('array', [{a: "b"}], 'array<map<string: string>>')).toBe(true);
+  })
+
+})
