@@ -1,4 +1,4 @@
-import Validate from "../src/validate";
+import Validate from "../validate";
 
 
 describe('Validate', () => {

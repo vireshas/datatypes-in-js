@@ -1,5 +1,4 @@
-import Validate from "../src/validate";
-
+import Validate from "../validate";
 
 describe('map', () => {
   it('{a: {b: c}} is a map', () => {
