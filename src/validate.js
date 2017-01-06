@@ -52,14 +52,14 @@ function isArray(schema, data) {
 
     let valueType = match[1].trim();
 
-      let valueIs = valueType;
+      let inferedType = valueType;
       if (valueType.match(mapRegex)) {
-        valueIs = "map";
+        inferedType = "map";
       } else if (valueType.match(arrayRegex)) {
-        valueIs = "array";
+        inferedType = "array";
       } 
 
-      _.forEach(data, (v) => { handleComplexDataType(valueIs, valueType, v) });
+      _.forEach(data, (v) => { handleComplexDataType(inferedType, valueType, v) });
 
       return true;
 
@@ -80,11 +80,11 @@ function isMap(schema, data) {
     let valueType = match[2].trim();
 
     if ( baseTypes.indexOf(keyType) != -1 ) {
-      let valueIs = valueType;
+      let inferedType = valueType;
       if (valueType.match(mapRegex)) {
-        valueIs = "map";
+        inferedType = "map";
       } else if (valueType.match(arrayRegex)) {
-        valueIs = "array";
+        inferedType = "array";
       } 
 
       _.forEach(data, (v, k) => {
@@ -92,7 +92,7 @@ function isMap(schema, data) {
           throw new Error(`validate: ${k} does not match the schema ${keyType}`)
         }
 
-        handleComplexDataType(valueIs, valueType, v)
+        handleComplexDataType(inferedType, valueType, v)
 
       });
 
