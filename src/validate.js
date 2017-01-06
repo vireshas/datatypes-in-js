@@ -13,7 +13,7 @@ export default function validate(type, data, schema) {
     case "boolean":
       return _.isBoolean(data);
     case "regex":
-      return isRegex(data);
+      return _.isString(data) && isRegex(data);
     case "range":
       return isRange(schema, data);
     case "map":
