@@ -28,7 +28,6 @@ describe('map', () => {
   })
 })
 
-
 describe('array', () => {
   it('[[1, 2], [2, 3]] is an array', () => {
     expect(Validate('array', [[1, 2], [2, 3]], 'array<array<number>>')).toBe(true);
