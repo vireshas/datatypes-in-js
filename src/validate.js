@@ -2,8 +2,8 @@ import _ from "lodash";
 
 const baseTypes = ["number", "string", "boolean"]
 
-const mapRegex = /map\<\s*(\w+)\s*:\s*(\w+)\s*\>/
-const arrayRegex = /array\<\s*(\w+)\s*\>/
+const mapRegex = /^map\<\s*(\w+)\s*:\s*(.*)\s*\>/
+const arrayRegex = /^array\<\s*(.*)\s*\>/
 
 export default function validate(type, data, schema) {
   switch(type) {
@@ -14,65 +14,95 @@ export default function validate(type, data, schema) {
     case "boolean":
       return _.isBoolean(data);
     case "map":
-      return isMap(data, schema);
+      return isMap(schema, data);
     case "array":
-      return isArray(data, schema);
+      return isArray(schema, data);
     default:
-      return false 
+      throw new Error("validate: invalid data-type")
   }
 }
 
-function isArray(data, schema) {
+function handleComplexDataType(inferedType, schema, data) {
+  switch(inferedType) {
+    case 'map':
+      if (!isMap(schema, data)) {
+        throw new Error(`validate: ${data} does not match the schema ${schema}`)
+      }
+      return true
+    case 'array':
+      if (!isArray(schema, data)) {
+        throw new Error(`validate: ${data} does not match the schema ${schema}`)
+      }
+      return true
+    default:
+      if (!validate(schema, data)) {
+        throw new Error(`validate: ${data} does not match the schema ${schema}`)
+      }
+      return true
+  }
+}
+
+function isArray(schema, data) {
   if (!_.isArray(data)) {
     throw new Error(`validate: data ${data} is not an array`)
   }
 
   let match = schema.match(arrayRegex)
   if(match && match[1]) {
-    let valueType = match[1];
 
-    if (baseTypes.indexOf(valueType) != -1) {
-      _.forEach(data, (v) => {
-        if ( !validate(valueType, v) ) {
-          throw new Error(`validate: either ${v} does not match the schema ${schema}`)
-        }
+    let valueType = match[1].trim();
 
-      })
-      return true
+      let valueIs = valueType;
+      if (valueType.match(mapRegex)) {
+        valueIs = "map";
+      } else if (valueType.match(arrayRegex)) {
+        valueIs = "array";
+      } 
 
-    } else {
-      throw new Error(`validate: value in schema is not a primitive data-type for ${schema}`)
+      _.forEach(data, (v) => { handleComplexDataType(valueIs, valueType, v) });
 
-    }
+      return true;
+
   } else {
     throw new Error(`validate: array schema invalid for ${schema}`)
 
   } 
 }
 
-function isMap(data, schema) {
+function isMap(schema, data) {
   if (_.isArray(data)) {
     throw new Error(`validate: data ${data} is of type array and not map`)
   }
 
   let match = schema.match(mapRegex)
   if(match && match[1] && match[2]) {
-    let keyType = match[1];
-    let valueType = match[2];
+    let keyType = match[1].trim();
+    let valueType = match[2].trim();
 
-    if (baseTypes.indexOf(keyType) != -1 && baseTypes.indexOf(valueType) != -1) {
+    if ( baseTypes.indexOf(keyType) != -1 ) {
+      let valueIs = valueType;
+      if (valueType.match(mapRegex)) {
+        valueIs = "map";
+      } else if (valueType.match(arrayRegex)) {
+        valueIs = "array";
+      } 
+
       _.forEach(data, (v, k) => {
-        if ( !validate(keyType, k) || !validate(valueType, v) ) {
-          throw new Error(`validate: either ${k} or ${v} does not match the schema ${schema}`)
+        if ( !validate(keyType, k) ) {
+          throw new Error(`validate: ${k} does not match the schema ${keyType}`)
         }
 
-      })
-      return true
+        handleComplexDataType(valueIs, valueType, v)
+
+      });
+
+      return true;
 
     } else {
-      throw new Error(`validate: either key or value in schema is not a primitive data-type for ${schema}`)
+       throw new Error(`validate: either key or value in schema is not a primitive data-type for ${schema}`)
 
     }
+
   } else {
     throw new Error(`validate: map schema invalid for ${schema}`)
 

@@ -64,7 +64,7 @@ describe('Validate', () => {
     })
 
     it('invalid schema', () => {
-      expect(function() { Validate('map', {a: 1, b: 'a'}, 'map<string: nu>') }).toThrow('primitive data-type');
+      expect(function() { Validate('map', {a: 1, b: 'a'}, 'map<string: nu>') }).toThrow(/invalid data-type/);
     })
 
     it('array is invalid', () => {

@@ -1,3 +1,3 @@
 import Validate from "./validate"
 
-console.log(Validate("number", 1))
+console.log(Validate("map<string: map<string: string>>", {a: {b: 'c:'}}))
