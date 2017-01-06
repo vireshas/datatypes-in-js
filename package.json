@@ -1,21 +1,21 @@
 {
-  "name": "cvsss",
+  "name": "datatypes-in-js",
   "version": "1.0.0",
-  "description": "create, validate, store and serve settings",
-  "main": "index.js",
+  "description": "Validate datatypes in JS",
+  "main": "validate.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vireshas/cvsss.git"
+    "url": "git+https://github.com/vireshas/datatypes-in-js.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "vireshas",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vireshas/cvsss/issues"
+    "url": "https://github.com/vireshas/datatypes-in-js/issues"
   },
-  "homepage": "https://github.com/vireshas/cvsss#readme",
+  "homepage": "https://github.com/vireshas/datatypes-in-js#readme",
   "dependencies": {
     "babel-core": "^6.21.0",
     "babel-polyfill": "^6.20.0",
