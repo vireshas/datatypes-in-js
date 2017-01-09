@@ -1,12 +1,12 @@
 #datatypes-in-js
 Checks if the given data matches a schema.
 
-##API
+##API  
 Validate(schema, data)
 
-###Exampels:
-Validate("number", 20)
-Validate("array<number>", [1,2])
+###Examples:  
+Validate("number", 20)  
+Validate("array<number>", [1,2])  
 
 
 From the specs
