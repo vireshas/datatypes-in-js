@@ -1,9 +1,18 @@
 #datatypes-in-js
+Checks if the given data matches a schema.
+
+##API
+Validate(schema, data)
+
+###Exampels:
+Validate("number", 20)
+Validate("array<number>", [1,2])
+
 
 From the specs
 
 ###Basic data-types:
-string, number. regex, boolean, range
+String, Number, Regex, Boolean, Range
 
 ###Complex data-types:
 Array, Map
