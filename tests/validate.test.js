@@ -52,65 +52,65 @@ describe('Validate', () => {
 
   describe('map', () => {
     test('{a: b} is a map', () => {
-      expect(Validate('map', {a: 'b'}, 'map<string: string>')).toBe(true);
+      expect(Validate('map<string: string>', {a: 'b'})).toBe(true);
     })
 
     test('{a: b, c: d} is a map', () => {
-      expect(Validate('map', {a: 'b', c: 'd'}, 'map<string: string>')).toBe(true);
+      expect(Validate('map<string: string>', {a: 'b', c: 'd'})).toBe(true);
     })
 
     test('{a: 1, b: 2} is a map', () => {
-      expect(Validate('map', {a: 1, b: 2}, 'map<string: number>')).toBe(true);
+      expect(Validate('map<string: number>', {a: 1, b: 2})).toBe(true);
     })
 
     test('invalid map', () => {
       expect(() => {
-        Validate('map', {a: 1, b: 'a'}, 'map<string: number>');
+        Validate('map<string: number>', {a: 1, b: 'a'});
       }).toThrow(/does not match the schema/);
     })
 
     it('invalid schema', () => {
-      expect(function() { Validate('map', {a: 1, b: 'a'}, 'map<string: nu>') }).toThrow(/invalid data-type/);
+      expect(function() { Validate('map<string: nu>', {a: 1, b: 'a'}) }).toThrow(/invalid data-type/);
     })
 
     it('array is invalid', () => {
       function func() {
-        Validate('map', [1, 2, 3], 'map<string: number>')
+        Validate('map<string: number>', [1, 2, 3])
       }
       expect(func).toThrowError("validate: data 1,2,3 is of type array and not map")
     })
 
     test('schema with spaces', () => {
-      expect(Validate('map', {a: 'b'}, 'map< string : string>')).toBe(true);
+      expect(Validate('map< string : string>', {a: 'b'})).toBe(true);
     })
 
     test('{"a" : 100} is a map', () => {
-      expect(Validate('map', {'a' : 100}, 'map< string : number >')).toBe(true);
+      expect(Validate('map< string : number >', {'a' : 100})).toBe(true);
     })
 
   })
 
   describe('array', () => {
     test('[1, 2] is an array', () => {
-      expect(Validate('array', [1, 2], 'array<number>')).toBe(true);
+      expect(Validate('array<number>', [1, 2])).toBe(true);
     })
 
     test('["a", "b"] is an array', () => {
-      expect(Validate('array', ['a', 'b'], 'array<string>')).toBe(true);
+      expect(Validate('array<string>', ['a', 'b'])).toBe(true);
     })
 
     test('invalid array', () => {
       expect(() => {
-        Validate('array', {a: 1, b: 'a'}, 'array<string>');
+        Validate('array<string>', {a: 1, b: 'a'});
       }).toThrow(/not an array/);
     })
 
     it('invalid schema', () => {
-      expect(function() { Validate('array', [1, 2], 'array<string>') }).toThrow(/does not match the schema/);
+      expect(function() { Validate('array<string>', [1, 2]) }).toThrow(/does not match the schema/);
     })
 
     it('invalid schema', () => {
-      expect(function() { Validate('array', ['1', 2], 'array<string>') }).toThrow(/2/);
+      expect(function() { Validate('array<string>', ['1', 2]) }).toThrow(/2/);
     })
 
   })

@@ -4,8 +4,20 @@ const baseTypes = ["number", "string", "boolean"];
 const mapRegex = /^map\<\s*(\w+)\s*:\s*(.*)\s*\>/;
 const arrayRegex = /^array\<\s*(.*)\s*\>/;
 
-export default function validate(type, data, schema) {
-  switch(type) {
+function inferDataType(data) {
+  let inferedType = data;
+
+   if (data.match(mapRegex)) {
+    inferedType = "map";
+  } else if (data.match(arrayRegex)) {
+    inferedType = "array";
+  } 
+
+  return inferedType;
+}
+
+export default function validate(schema, data) {
+   switch(inferDataType(schema)) {
     case "number":
       return _.isNumber(data);
     case "string":
@@ -43,18 +55,6 @@ function handleComplexDataType(inferedType, schema, data) {
       }
       return true;
   }
-}
-
-function inferDataType(data) {
-  let inferedType = data;
-
-  if (data.match(mapRegex)) {
-    inferedType = "map";
-  } else if (data.match(arrayRegex)) {
-    inferedType = "array";
-  } 
-
-  return inferedType;
 }
 
 function isRegex(data) {
