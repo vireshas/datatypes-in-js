@@ -3,16 +3,10 @@
 From the specs
 
 ###Basic data-types:
-string
-number
-regex
-boolean
-range
+string, number. regex, boolean, range
 
 ###Complex data-types:
-Array
-Map
-
+Array, Map
 
 ###Usage:  
 ```
