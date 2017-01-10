@@ -7,7 +7,7 @@ const arrayRegex = /^array\<\s*(.*)\s*\>/;
 function inferDataType(data) {
   let inferedType = data;
 
-   if (data.match(mapRegex)) {
+  if (data.match(mapRegex)) {
     inferedType = "map";
   } else if (data.match(arrayRegex)) {
     inferedType = "array";
@@ -17,7 +17,7 @@ function inferDataType(data) {
 }
 
 export default function validate(schema, data) {
-   switch(inferDataType(schema)) {
+  switch(inferDataType(schema)) {
     case "number":
       return _.isNumber(data);
     case "string":

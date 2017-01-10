@@ -4,7 +4,8 @@
   "description": "Validate datatypes in JS",
   "main": "validate.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rm -rf out && babel validate.js -d out"
   },
   "repository": {
     "type": "git",
