@@ -2,13 +2,7 @@
 Checks if the given data matches a schema.
 
 ##API  
-Validate(schema, data)
-
-
-String, Number, Regex, Boolean, Range
-
-###Complex data-types:
-Array, Map
+> Validate(schema, data)
 
 ##Basic data-types:
 
@@ -22,16 +16,32 @@ Array, Map
 ####String  
 ```
   Validate('string', "abc def") => true
+  Validate('string', 0.3) => false
+  Validate('string', 'abcd') => true
 ```
 
+####Boolean
+```
+  Validate('boolean', "abc") => false
+  Validate('boolean', true) => true
+  Validate('boolean', false) => true
+```
 
-Validate('boolean', true) => true
+####Map
+```
+  Validate('map<string: string>', {a: 'b'}) => true
+  Validate('map<string: string>', {a: 'b', c: 'd'}) => true
+  Validate('map<string: number>', {a: 1, b: 2}) => true
+  Validate('map<string: number>', {a: 1, b: 'a'}) throws /does not match the schema/
+  Validate('map<string: nu>', {a: 1, b: 'a'}) }) throws /invalid data-type/
+  Validate('map< string : number >', {'a' : 100}) => true
+```
 
-expect(Validate('map<string: string>', {a: 'b', c: 'd'})).toBe(true);
-expect(Validate('array<string>', ['a', 'b'])).toBe(true);
-
-expect(Validate('map<string: map<string: map<string: map<string: number>>>>', {a: {b: {c: {d: 2}}}} )).toBe(true)
-expect(Validate('array<array<number>>', [[1, 2], [2, 3]])).toBe(true);
-
-expect(Validate('map<string: array<map<string: number>>>', {a: [{a: 1, b: 2}], b: [{a: 1}, {b: 1}]})).toBe(true);
+####Array
+```
+  Validate('array<number>', [1, 2]) => true
+  Validate('array<string>', ['a', 'b']) => true
+  Validate('array<string>', {a: 1, b: 'a'}) throws /not an array/
+  Validate('array<string>', [1, 2]) throws /does not match the schema/
+  Validate('array<string>', ['1', 2]) }) throws /2 doesnt match schema/
 ```
