@@ -4,7 +4,7 @@ Checks if the given data matches a schema.
 ##API  
 > Validate(schema, data)
 
-##Basic data-types:
+##Examples
 
 ####Number
 ```
@@ -46,7 +46,7 @@ Checks if the given data matches a schema.
   Validate('array<string>', ['1', 2]) }) throws /2 doesnt match schema/
 ```
 
-####Complex
+###Complex
 
 #####Map in Map
 ```
