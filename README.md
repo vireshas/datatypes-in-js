@@ -45,3 +45,17 @@ Checks if the given data matches a schema.
   Validate('array<string>', [1, 2]) throws /does not match the schema/
   Validate('array<string>', ['1', 2]) }) throws /2 doesnt match schema/
 ```
+
+####Complex
+
+#####Array inside Map
+```  
+  Validate('map<string: map<string: array<number>>>', {a: {b: [1, 2]}, b: {c: [3,4]}}) => true
+  Validate('map<string: array<map<string: number>>>', {a: [{a: 1, b: 2}], b: [{a: 1}, {b: 1}]}) => true
+```
+  
+#####Map inside Array
+```
+  Validate('array<map<string: string>>', [{a: "b"}]) => true
+  Validate('array<map<string: map<string: array<number>>>>', [{a: {b: [1, 2]}}, {b: {c: [3, 4]}}])).toBe(true)
+```
