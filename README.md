@@ -4,21 +4,28 @@ Checks if the given data matches a schema.
 ##API  
 Validate(schema, data)
 
-###Examples:  
-Validate("number", 20)  
-Validate("array<number>", [1,2])  
 
-###Basic data-types:
 String, Number, Regex, Boolean, Range
 
 ###Complex data-types:
 Array, Map
 
-###Usage:  
+##Basic data-types:
+
+####Number
 ```
-expect(Validate('number', 20)).toBe(true);
-expect(Validate('number', 0.3)).toBe(true);
-expect(Validate('boolean', true)).toBe(true);
+  Validate('number', 20) => true
+  Validate('number', 0.3) => true
+  Validate('number', 'abcd') => false
+```
+
+####String  
+```
+  Validate('string', "abc def") => true
+```
+
+
+Validate('boolean', true) => true
 
 expect(Validate('map<string: string>', {a: 'b', c: 'd'})).toBe(true);
 expect(Validate('array<string>', ['a', 'b'])).toBe(true);
