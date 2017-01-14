@@ -1,4 +1,4 @@
-#datatypes-in-js
+#datatypes-in-js [![Build Status](https://travis-ci.org/vireshas/datatypes-in-js.svg?branch=master)](https://travis-ci.org/vireshas/datatypes-in-js)
 Checks if the given data matches a schema.
 
 ##API  
