@@ -1,4 +1,4 @@
-import _ from "lodash";
+import {isNumber, isString, isBoolean, isArray as _isArray, forEach} from "./base_types";
 
 const baseTypes = ["number", "string", "boolean"];
 const mapRegex = /^map\<\s*(\w+)\s*:\s*(.*)\s*\>/;
@@ -19,13 +19,13 @@ function inferDataType(data) {
 export default function validate(schema, data) {
   switch(inferDataType(schema)) {
     case "number":
-      return _.isNumber(data);
+      return isNumber(data);
     case "string":
-      return _.isString(data);
+      return isString(data);
     case "boolean":
-      return _.isBoolean(data);
+      return isBoolean(data);
     case "regex":
-      return _.isString(data) && isRegex(data);
+      return isString(data) && isRegex(data);
     case "range":
       return isRange(schema, data);
     case "map":
@@ -76,7 +76,7 @@ function isRange(schema, data) {
 }
 
 function isArray(schema, data) {
-  if (!_.isArray(data)) {
+  if (!_isArray(data)) {
     throw new Error(`validate: data ${data} is not an array`);
   }
 
@@ -85,7 +85,7 @@ function isArray(schema, data) {
     let valueType = match[1].trim();
     let inferedType = inferDataType(valueType);
 
-    _.forEach(data, (v) => { handleComplexDataType(inferedType, valueType, v) });
+    forEach(data, (v) => { handleComplexDataType(inferedType, valueType, v) });
 
     return true;
   } else {
@@ -94,7 +94,7 @@ function isArray(schema, data) {
 }
 
 function isMap(schema, data) {
-  if (_.isArray(data)) {
+  if (_isArray(data)) {
     throw new Error(`validate: data ${data} is of type array and not map`);
   }
 
@@ -106,7 +106,7 @@ function isMap(schema, data) {
     if ( baseTypes.indexOf(keyType) != -1 ) {
       let inferedType = inferDataType(valueType);
 
-      _.forEach(data, (v, k) => {
+      forEach(data, (v, k) => {
         if ( !validate(keyType, k) ) {
           throw new Error(`validate: ${k} does not match the schema ${keyType}`);
         }
