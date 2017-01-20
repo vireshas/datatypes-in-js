@@ -1,4 +1,4 @@
-import {isNumber, isString, isBoolean, isArray as _isArray, forEach} from "./base_types";
+import {isNumber, isString, isBoolean, isArray as _isArray, forEach} from "./lodash";
 
 const baseTypes = ["number", "string", "boolean"];
 const mapRegex = /^map\<\s*(\w+)\s*:\s*(.*)\s*\>/;
