@@ -4,12 +4,12 @@ const baseTypes = ["number", "string", "boolean"];
 const mapRegex = /^map\<\s*(\w+)\s*:\s*(.*)\s*\>/;
 const arrayRegex = /^array\<\s*(.*)\s*\>/;
 
-function inferDataType(data) {
-  let inferedType = data;
+function inferDataType(schema) {
+  let inferedType = schema;
 
-  if (data.match(mapRegex)) {
+  if (schema.match(mapRegex)) {
     inferedType = "map";
-  } else if (data.match(arrayRegex)) {
+  } else if (schema.match(arrayRegex)) {
     inferedType = "array";
   } 
 
