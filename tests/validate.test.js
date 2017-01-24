@@ -48,6 +48,10 @@ describe('Validate', () => {
     test('^abc$ is a regex', () => {
       expect(Validate('regex', "^abc$")).toBe(true);
     })
+
+    test('*** is invalid regex', () => {
+      expect(Validate('regex', "***")).toBe(false);
+    })
   })
 
   describe('map', () => {
